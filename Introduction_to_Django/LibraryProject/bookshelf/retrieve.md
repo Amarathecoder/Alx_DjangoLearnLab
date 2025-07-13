@@ -1,6 +1,4 @@
 # Retrieve a Book
 
 ```python
-from bookshelf.models import Book
-retrieved_book = Book.objects.get(id=book.id)
-retrieved_book
+book = Book.objects.get(title="1984") print(book.title) print(book.author) print(book.publication_year)
