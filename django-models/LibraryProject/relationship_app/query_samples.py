@@ -33,7 +33,7 @@ except Library.DoesNotExist:
 # 3. Retrieve the librarian for a specific library
 try:
     library = Library.objects.get(name=library_name)
-    librarian = library.librarian  # thanks to OneToOne relationship
+    librarian = Librarian.objects.get(library=library_name)  # thanks to OneToOne relationship
     print(f"\nLibrarian managing {library_name}: {librarian.name}")
 except Library.DoesNotExist:
     print(f"No library found with name {library_name}")
