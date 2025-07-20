@@ -1,8 +1,7 @@
 import os
 import django
 
-# Set up the Django environment
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_models.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LibraryProject.settings')
 django.setup()
 
 # Import the models
