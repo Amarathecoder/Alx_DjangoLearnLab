@@ -7,11 +7,20 @@ from django.views.generic import CreateView
 from django.contrib.auth.decorators import permission_required
 from .models import Book
 from django.http import HttpResponseForbidden
+from .forms import ExampleForm
 
 class SignUpView(CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy("login")
     template_name = "registration/signup.html"
+
+def search_books(request):
+    form = ExampleForm(request.GET)
+    books = []
+    if form.is_valid():
+        query = form.cleaned_data['query']
+        books = Book.objects.filter(title__icontains=query)  # Safe query using ORM
+    return render(request, 'bookshelf/search_results.html', {'form': form, 'books': books})
 
 @permission_required('books.can_view', raise_exception=True)
 def book_list(request):
