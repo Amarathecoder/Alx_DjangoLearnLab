@@ -6,7 +6,7 @@ from .models import Post, Comment
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-
+from django.urls import reverse_lazy
 # Create your views here.
 
 def register(request):
