@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import CustomUserCreationForm, CommentForm
@@ -8,6 +8,8 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from taggit.models import Tag
+from django.db.models import Q
+from django.contrib.auth.forms import AuthenticationForm
 
 
 # Create your views here.
@@ -148,3 +150,10 @@ class TaggedPostListView(ListView):
 
     def get_queryset(self):
         return Post.objects.filter(tags__name=self.kwargs['tag_name'])
+    
+def search(request):
+    query = request.GET.get('q', '')
+    posts = Post.objects.filter(
+        Q(title__icontains=query) | Q(content__icontains=query) | Q(tags__name__icontains=query)
+    ).distinct()
+    return render(request, 'blog/search_results.html', {'posts': posts, 'query': query})
