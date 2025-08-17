@@ -2,6 +2,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
+from .views import PostByTagListView
 
 urlpatterns = [
     # Auth Views
@@ -23,4 +24,7 @@ urlpatterns = [
     path('comment/<int:pk>/update/', views.CommentUpdateView.as_view(), name='comment-update'),
     path('comment/<int:pk>/delete/', views.CommentDeleteView.as_view(), name='comment-delete'),
     path('post/<int:pk>/comments/new/', views.CommentCreateView.as_view(), name='comment-create'),
+
+     path('tags/<str:tag_name>/', views.TaggedPostListView.as_view(), name='tagged_posts'),
+    path('tags/<slug:tag_slug>/', PostByTagListView.as_view(), name='post_by_tag'),
 ]
