@@ -66,8 +66,17 @@ class FeedView(APIView):
     def get(self, request):
         following_users = request.user.following.all()
         posts = Post.objects.filter(author__in=following_users).order_by('-created_at')
-        post_data = PostSerializer(posts, many=True).data
-        return Response(post_data)
+        feed_data = [
+            {
+                "id": posts.id,
+                "author": posts.author.username,
+                "title": posts.title,
+                "content": posts.content,
+                "created_at": posts.created_at,
+            }
+            for post in posts
+        ]
+        return Response(feed_data)
 
 class LikePostView(generics.GenericAPIView):
     queryset = Post.objects.all()
